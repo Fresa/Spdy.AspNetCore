@@ -28,6 +28,12 @@ namespace Spdy.AspNetCore
             return next.Invoke(context);
         }
 
+        public static class Headers
+        {
+            public const string Upgrade = "SPDY/3.1";
+            public const string Connection = "Upgrade";
+        }
+
         private class UpgradeHandshake : ISpdyFeature
         {
             private readonly HttpContext _context;
@@ -39,9 +45,6 @@ namespace Spdy.AspNetCore
                 HeaderNames.Connection,
                 HeaderNames.Upgrade
             };
-
-            private const string UpgradeSpdy = "SPDY/3.1";
-            private const string ConnectionUpgrade = "Upgrade";
 
             public UpgradeHandshake(
                 HttpContext context,
@@ -121,7 +124,7 @@ namespace Spdy.AspNetCore
                         StringComparison.OrdinalIgnoreCase))
                     {
                         if (string.Equals(
-                            ConnectionUpgrade, value,
+                            Headers.Connection, value,
                             StringComparison.OrdinalIgnoreCase))
                         {
                             validConnection = true;
@@ -132,7 +135,7 @@ namespace Spdy.AspNetCore
                         StringComparison.OrdinalIgnoreCase))
                     {
                         if (string.Equals(
-                            UpgradeSpdy, value,
+                            Headers.Upgrade, value,
                             StringComparison.OrdinalIgnoreCase))
                         {
                             validUpgrade = true;
@@ -146,8 +149,8 @@ namespace Spdy.AspNetCore
             private static void GenerateResponseHeaders(
                 IHeaderDictionary headers)
             {
-                headers[HeaderNames.Connection] = ConnectionUpgrade;
-                headers[HeaderNames.Upgrade] = UpgradeSpdy;
+                headers[HeaderNames.Connection] = Headers.Connection;
+                headers[HeaderNames.Upgrade] = Headers.Upgrade;
             }
         }
     }

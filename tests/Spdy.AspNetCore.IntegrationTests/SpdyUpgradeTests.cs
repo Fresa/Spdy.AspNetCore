@@ -80,8 +80,8 @@ namespace Spdy.AspNetCore.IntegrationTests
                             {
                                 Headers =
                                 {
-                                    { Microsoft.Net.Http.Headers.HeaderNames.Connection, "Upgrade" },
-                                    { Microsoft.Net.Http.Headers.HeaderNames.Upgrade, "SPDY/3.1" }
+                                    { Microsoft.Net.Http.Headers.HeaderNames.Connection, SpdyMiddleware.Headers.Connection },
+                                    { Microsoft.Net.Http.Headers.HeaderNames.Upgrade, SpdyMiddleware.Headers.Upgrade }
                                 }
                             },
                             // This prevents the http client to buffer the response

@@ -8,7 +8,7 @@ namespace Spdy.AspNetCore
     internal sealed class DefaultSpdyManager : ISpdyManager
     {
         private static readonly Func<IFeatureCollection, ISpdyFeature?>
-            NullSpdyFeature = featureCollection => null;
+            NullSpdyFeature = _ => null;
 
         private FeatureReferences<FeatureInterfaces> _features;
 
