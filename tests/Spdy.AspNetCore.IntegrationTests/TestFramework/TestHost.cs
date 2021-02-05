@@ -2,7 +2,6 @@ using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
@@ -96,18 +95,6 @@ namespace Spdy.AspNetCore.IntegrationTests.TestFramework
                 await _host.StopAsync(cancellationToken)
                            .ConfigureAwait(false);
             }
-        }
-    }
-
-    internal sealed class UpgradeMiddlewareFilter : IStartupFilter
-    {
-        public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
-        {
-            return builder =>
-            {
-                builder.UseMiddleware<UpgradeTestMiddleware>();
-                next(builder);
-            };
         }
     }
 }
