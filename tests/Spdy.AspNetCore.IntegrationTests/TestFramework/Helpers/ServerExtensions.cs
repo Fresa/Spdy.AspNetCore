@@ -2,7 +2,7 @@
 using Spdy.AspNetCore.IntegrationTests.Observability;
 using Test.It.While.Hosting.Your.Web.Application;
 
-namespace Spdy.AspNetCore.IntegrationTests.TestFramework
+namespace Spdy.AspNetCore.IntegrationTests.TestFramework.Helpers
 {
     internal static class ServerExtensions
     {

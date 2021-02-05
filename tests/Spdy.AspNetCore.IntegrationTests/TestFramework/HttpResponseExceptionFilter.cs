@@ -1,7 +1,7 @@
 using Log.It;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Spdy.AspNetCore.IntegrationTests
+namespace Spdy.AspNetCore.IntegrationTests.TestFramework
 {
     internal sealed class HttpResponseExceptionFilter : IActionFilter, IOrderedFilter
     {

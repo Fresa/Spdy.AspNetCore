@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Spdy.AspNetCore.IntegrationTests
+namespace Spdy.AspNetCore.IntegrationTests.TestFramework.Upgrading
 {
     internal sealed class DuplexStreamContent : HttpContent
     {

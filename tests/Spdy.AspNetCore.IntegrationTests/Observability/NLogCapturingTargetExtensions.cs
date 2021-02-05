@@ -2,7 +2,7 @@
 using Spdy.AspNetCore.IntegrationTests.TestFramework.Helpers;
 using Test.It.With.XUnit;
 
-namespace Spdy.AspNetCore.IntegrationTests.TestFramework
+namespace Spdy.AspNetCore.IntegrationTests.Observability
 {
     internal static class NLogCapturingTargetExtensions
     {

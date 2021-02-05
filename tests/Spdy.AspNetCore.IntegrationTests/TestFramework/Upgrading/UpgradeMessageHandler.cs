@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.TestHost;
 
-namespace Spdy.AspNetCore.IntegrationTests
+namespace Spdy.AspNetCore.IntegrationTests.TestFramework.Upgrading
 {
     internal sealed class UpgradeMessageHandler : HttpMessageHandler
     {

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Spdy.AspNetCore.IntegrationTests.Subscriptions;
 using Spdy.AspNetCore.IntegrationTests.TestFramework;
+using Spdy.AspNetCore.IntegrationTests.TestFramework.Helpers;
 using Test.It;
 using Xunit;
 using Xunit.Abstractions;

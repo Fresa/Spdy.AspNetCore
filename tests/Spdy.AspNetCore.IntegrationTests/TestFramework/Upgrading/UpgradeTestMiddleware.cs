@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 
-namespace Spdy.AspNetCore.IntegrationTests
+namespace Spdy.AspNetCore.IntegrationTests.TestFramework.Upgrading
 {
     /// <summary>
     /// Used to simulate upgrades during testing through the TestServer

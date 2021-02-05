@@ -5,7 +5,7 @@ using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Spdy.AspNetCore.IntegrationTests
+namespace Spdy.AspNetCore.IntegrationTests.TestFramework.Upgrading
 {
     internal sealed class CrossWiredStream : Stream
     {

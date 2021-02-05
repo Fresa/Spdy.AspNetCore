@@ -2,6 +2,8 @@ using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using NLog.Web;
+using Spdy.AspNetCore.IntegrationTests.TestFramework.Upgrading;
 using Test.It.Specifications;
 using Test.It.While.Hosting.Your.Web.Application;
 
@@ -50,6 +53,8 @@ namespace Spdy.AspNetCore.IntegrationTests.TestFramework
                            .ConfigureServices(
                                collection =>
                                {
+                                   collection.AddTransient<IStartupFilter,
+                                       UpgradeMiddlewareFilter>();
                                    collection.AddLogging(
                                        builder =>
                                        {
@@ -60,7 +65,6 @@ namespace Spdy.AspNetCore.IntegrationTests.TestFramework
                                        options =>
                                            options.Filters.Add(
                                                new
-                                                   IntegrationTests.
                                                    HttpResponseExceptionFilter()));
                                    testConfigurer.Configure(
                                        new ServiceCollectionServiceContainer(
@@ -92,6 +96,18 @@ namespace Spdy.AspNetCore.IntegrationTests.TestFramework
                 await _host.StopAsync(cancellationToken)
                            .ConfigureAwait(false);
             }
+        }
+    }
+
+    internal sealed class UpgradeMiddlewareFilter : IStartupFilter
+    {
+        public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
+        {
+            return builder =>
+            {
+                builder.UseMiddleware<UpgradeTestMiddleware>();
+                next(builder);
+            };
         }
     }
 }

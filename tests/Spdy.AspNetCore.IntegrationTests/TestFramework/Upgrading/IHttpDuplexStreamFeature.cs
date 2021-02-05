@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Spdy.AspNetCore.IntegrationTests
+namespace Spdy.AspNetCore.IntegrationTests.TestFramework.Upgrading
 {
     internal interface IHttpDuplexStreamFeature
     {

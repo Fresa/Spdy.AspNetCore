@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="TestFramework\Helpers\" />
   </ItemGroup>
 
 
