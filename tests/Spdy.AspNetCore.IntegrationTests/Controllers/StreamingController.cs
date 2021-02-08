@@ -7,7 +7,7 @@ using Spdy.AspNetCore.IntegrationTests.Subscriptions;
 namespace Spdy.AspNetCore.IntegrationTests.Controllers
 {
     [ApiController]
-    [Route("api/v1")]
+    [Route("api/v1/[Controller]")]
     public class StreamingController : ControllerBase
     {
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
@@ -21,7 +21,7 @@ namespace Spdy.AspNetCore.IntegrationTests.Controllers
             _subscriptions = subscriptions;
         }
 
-        [HttpGet("streaming")]
+        [HttpGet]
         public async Task<ActionResult> PortForward(
             CancellationToken cancellationToken)
         {
@@ -32,9 +32,9 @@ namespace Spdy.AspNetCore.IntegrationTests.Controllers
                     cancellationToken,
                     _hostApplicationLifetime.ApplicationStopping);
 
-                var spdySession = await HttpContext.Spdy()
-                                                   .AcceptSpdyAsync()
-                                                   .ConfigureAwait(false);
+                await using var spdySession = await HttpContext.Spdy()
+                                                               .AcceptSpdyAsync()
+                                                               .ConfigureAwait(false);
 
                 await _subscriptions.WaitAsync(spdySession, cancellationTokenSource.Token)
                                     .ConfigureAwait(false);
