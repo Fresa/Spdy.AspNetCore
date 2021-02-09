@@ -31,6 +31,8 @@ namespace Spdy.AspNetCore.IntegrationTests.TestFramework
                              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                              .Build());
             NLogCapturingTargetExtensions.RegisterOutputOnce();
+            Logging.LogFactory.TryInitializeOnce(
+                new SpdyNLogFactory(new SpdyNLogLogContext()));
         }
 
         protected XUnit2ServiceSpecificationAsync(

@@ -27,7 +27,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
-    <PackageReference Include="Spdy" Version="1.0.1" />
+    <PackageReference Include="Spdy" Version="1.0.0" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(NCrunch)' == '1'">

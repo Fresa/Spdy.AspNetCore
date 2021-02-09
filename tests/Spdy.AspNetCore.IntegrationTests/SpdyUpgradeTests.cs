@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Buffers;
+using System.IO.Pipelines;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -24,7 +25,7 @@ namespace Spdy.AspNetCore.IntegrationTests
                 TestHost>
         {
             private HttpResponseMessage _response = default!;
-            private ReadResult _serverReceivedRequest;
+            private string _serverReceivedRequest = "";
             private string _clientReceivedResponse = "";
 
             public When_requesting_to_upgrade_to_spdy(
@@ -54,15 +55,26 @@ namespace Spdy.AspNetCore.IntegrationTests
                                                      cancellationToken)
                                                  .ConfigureAwait(false);
 
-                        _serverReceivedRequest = await stream
+                        ReadResult readResult;
+                        do
+                        {
+                            readResult = await stream
                                                .ReceiveAsync(
                                                    cancellationToken: cancellationToken)
                                                .ConfigureAwait(false);
+                            _serverReceivedRequest +=
+                                Encoding.UTF8.GetString(
+                                    readResult.Buffer.ToArray());
+                        } while (!readResult.IsCanceled && 
+                                 !readResult.IsCompleted);
 
                         await stream.SendLastAsync(
-                                        new ReadOnlyMemory<byte>(
-                                            Encoding.UTF8.GetBytes(
-                                                "This is a response")), cancellationToken: cancellationToken)
+                                new ReadOnlyMemory<byte>(
+                                    Encoding.UTF8.GetBytes(
+                                        "This is a response")), cancellationToken: cancellationToken)
+                            .ConfigureAwait(false);
+
+                        await stream.WaitForFullyClosedAsync(cancellationToken)
                                     .ConfigureAwait(false);
                     });
             }
@@ -94,31 +106,30 @@ namespace Spdy.AspNetCore.IntegrationTests
 
                 await using var client = SpdySession.CreateClient(new StreamingNetworkClient(stream));
                 using var spdyStream = client.CreateStream();
-                
-                await spdyStream.SendLastAsync(
-                    Encoding.UTF8.GetBytes("This is a request"), cancellationToken: cancellationToken);
-                
-                var readResult = await spdyStream
-                                   .ReceiveAsync(
-                                       cancellationToken: cancellationToken)
-                                   .ConfigureAwait(false);
-                _clientReceivedResponse = Encoding.UTF8.GetString(readResult.Buffer.ToArray());
 
-                await Task.WhenAll(
-                              spdyStream.Local.WaitForClosedAsync(
-                                  cancellationToken),
-                              spdyStream.Remote.WaitForClosedAsync(
-                                  cancellationToken))
-                          .ConfigureAwait(false);
+                await spdyStream.SendLastAsync(
+                     Encoding.UTF8.GetBytes("This is a request"), cancellationToken: cancellationToken);
+                ReadResult readResult;
+                do
+                {
+                    readResult = await spdyStream
+                                       .ReceiveAsync(
+                                           cancellationToken: cancellationToken)
+                                       .ConfigureAwait(false);
+                    _clientReceivedResponse += Encoding.UTF8.GetString(readResult.Buffer.ToArray());
+                } while (!readResult.IsCanceled && 
+                         !readResult.IsCompleted);
+
+                await spdyStream.WaitForFullyClosedAsync(cancellationToken)
+                                .ConfigureAwait(false);
             }
 
             [Fact]
             public void It_should_receive_the_message_sent()
             {
-                Encoding.ASCII.GetString(
-                            _serverReceivedRequest.Buffer.ToArray())
-                        .Should()
-                        .Be("This is a request");
+                _serverReceivedRequest
+                    .Should()
+                    .Be("This is a request");
             }
 
             [Fact]
