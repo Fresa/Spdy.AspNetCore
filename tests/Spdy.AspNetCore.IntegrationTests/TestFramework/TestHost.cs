@@ -40,7 +40,7 @@ namespace Spdy.AspNetCore.IntegrationTests.TestFramework
             {
                 IConfiguration configuration = default!;
                 var hostBuilder =
-                    Program.CreateHostBuilder(new string[0])
+                    Program.CreateHostBuilder(Array.Empty<string>())
                            .ConfigureAppConfiguration(
                                (
                                    context,

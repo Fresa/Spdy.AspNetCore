@@ -17,7 +17,7 @@ namespace Spdy.AspNetCore.IntegrationTests.TestFramework.Upgrading
 
         protected override Task SerializeToStreamAsync(
             Stream stream,
-            TransportContext context)
+            TransportContext? context)
             => Task.CompletedTask;
 
         protected override bool TryComputeLength(

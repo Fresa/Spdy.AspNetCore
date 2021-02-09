@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace Spdy.AspNetCore
 {
-    public interface ISpdyFeature
+    internal interface ISpdyFeature
     {
         bool IsSpdyRequest { get; }
         Task<SpdySession> AcceptAsync();

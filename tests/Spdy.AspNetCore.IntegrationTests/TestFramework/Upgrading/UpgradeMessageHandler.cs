@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
@@ -41,6 +42,7 @@ namespace Spdy.AspNetCore.IntegrationTests.TestFramework.Upgrading
 
             var duplexStreamFeature =
                 httpContext.Features.Get<IHttpDuplexStreamFeature>();
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse Can be null
             if (duplexStreamFeature != null &&
                 duplexStreamFeature.Body != Stream.Null)
             {
@@ -87,7 +89,10 @@ namespace Spdy.AspNetCore.IntegrationTests.TestFramework.Upgrading
 
                 req.Method = request.Method.ToString();
 
-                req.Scheme = request.RequestUri.Scheme;
+                req.Scheme = request.RequestUri?.Scheme ??
+                             throw new ArgumentNullException(
+                                 nameof(request.RequestUri),
+                                 "Missing request uri");
 
                 foreach (var (key, value) in request.Headers)
                 {

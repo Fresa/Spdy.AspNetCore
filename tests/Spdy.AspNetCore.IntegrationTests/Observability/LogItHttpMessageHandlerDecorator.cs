@@ -21,7 +21,7 @@ namespace Spdy.AspNetCore.IntegrationTests.Observability
             if (request.Content != null)
             {
                 var requestContent = await request.Content
-                                                  .ReadAsStringAsync()
+                                                  .ReadAsStringAsync(cancellationToken)
                                                   .ConfigureAwait(false);
 
                 _logger.Trace($"Request: {requestContent}");
@@ -37,14 +37,11 @@ namespace Spdy.AspNetCore.IntegrationTests.Observability
                 return response;
             }
 
-            if (response.Content != null)
-            {
-                var responseContent = await response.Content
-                                                    .ReadAsStringAsync()
-                                                    .ConfigureAwait(false);
+            var responseContent = await response.Content
+                                                .ReadAsStringAsync(cancellationToken)
+                                                .ConfigureAwait(false);
 
-                _logger.Trace($"Response: {responseContent}");
-            }
+            _logger.Trace($"Response: {responseContent}");
 
             return response;
         }
