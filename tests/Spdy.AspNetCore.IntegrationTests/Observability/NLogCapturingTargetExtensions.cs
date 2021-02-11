@@ -7,7 +7,7 @@ namespace Spdy.AspNetCore.IntegrationTests.Observability
     internal static class NLogCapturingTargetExtensions
     {
         private static readonly ExclusiveLock NLogCapturingTargetLock = 
-            new ExclusiveLock();
+            new();
         internal static void RegisterOutputOnce()
         {
             if (NLogCapturingTargetLock.TryAcquire())

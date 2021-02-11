@@ -22,7 +22,7 @@ namespace Spdy.AspNetCore.IntegrationTests.Observability
             }
 
             LogFactory.Initialize(new NLogFactory(new LogicalThreadContext()));
-            Spdy.Logging.LogFactory.TryInitializeOnce(
+            Logging.LogFactory.TryInitializeOnce(
                 new SpdyNLogFactory(new SpdyNLogLogContext()));
         }
     }
