@@ -19,9 +19,9 @@ namespace Spdy.AspNetCore.IntegrationTests.TestFramework
         private TWebApplicationHost _webApplicationHost = default!;
 
         private readonly List<IDisposable> _disposables =
-            new List<IDisposable>();
+            new();
         private readonly List<IAsyncDisposable> _asyncDisposables =
-            new List<IAsyncDisposable>();
+            new();
 
         static XUnit2ServiceSpecificationAsync()
         {

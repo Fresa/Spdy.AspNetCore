@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Buffers;
-using System.IO.Pipelines;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;

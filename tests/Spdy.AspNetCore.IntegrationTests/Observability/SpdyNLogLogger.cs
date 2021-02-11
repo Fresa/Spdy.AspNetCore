@@ -4,7 +4,7 @@ using Spdy.Logging;
 
 namespace Spdy.AspNetCore.IntegrationTests.Observability
 {
-    internal sealed class SpdyNLogLogger : Spdy.Logging.ILogger
+    internal sealed class SpdyNLogLogger : Logging.ILogger
     {
         private readonly Lazy<Logger> _lazyLoggerResolver;
         private Logger Logger => _lazyLoggerResolver.Value;

@@ -57,7 +57,7 @@ namespace Spdy.AspNetCore.IntegrationTests.TestFramework.Upgrading
 
         public override async ValueTask WriteAsync(
             ReadOnlyMemory<byte> buffer,
-            CancellationToken cancellationToken = new CancellationToken())
+            CancellationToken cancellationToken = new())
         {
             await _write.Writer.WriteAsync(buffer, cancellationToken)
                         .ConfigureAwait(false);
@@ -65,7 +65,7 @@ namespace Spdy.AspNetCore.IntegrationTests.TestFramework.Upgrading
 
         public override async ValueTask<int> ReadAsync(
             Memory<byte> buffer,
-            CancellationToken cancellationToken = new CancellationToken())
+            CancellationToken cancellationToken = new())
         {
             var result = await _read.Reader.ReadAsync(cancellationToken)
                                     .ConfigureAwait(false);
